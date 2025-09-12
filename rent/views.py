@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import send_mail
 from django.conf import settings
+from django.core.mail import get_connection, EmailMessage
 from rest_framework.views import APIView
 
 
@@ -68,16 +69,26 @@ class ContactMessageAPIView(APIView):
             message = serializer.save()
 
             try:
-                send_mail(
-                    subject=f"New message from {message.name}",
-                    message=f"Email: {message.email}\n\nMessage:\n{message.message}",
-                    from_email='dev@bereketlilogistika.com',
-                    recipient_list=['recipient@example.com'],  # кому отправлять
-                    fail_silently=False,
-                    auth_user='dev@bereketlilogistika.com',
-                    auth_password='(;fjlr&([yn6',  # пароль, который ты прислал
-                    connection=None,
+                # Создаём соединение с SMTP сервером
+                connection = get_connection(
+                    host='bereketlilogistika.com',
+                    port=465,
+                    username='dev@bereketlilogistika.com',
+                    password='(;fjlr&([yn6',
+                    use_ssl=True
                 )
+
+                # Формируем письмо
+                email = EmailMessage(
+                    subject=f"New message from {message.name}",
+                    body=f"Email: {message.email}\n\nMessage:\n{message.message}",
+                    from_email='dev@bereketlilogistika.com',
+                    to=['sanjarberdiyew66@gmail.com'],
+                    connection=connection
+                )
+
+                # Отправка письма
+                email.send()
             except Exception as e:
                 return Response(
                     {"error": f"Ошибка при отправке письма: {str(e)}"},
@@ -87,7 +98,6 @@ class ContactMessageAPIView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class FAQListAPIView(APIView):
     def get(self, request):
