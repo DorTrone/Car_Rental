@@ -24,10 +24,10 @@ class CarAdmin(admin.ModelAdmin):
     filter_horizontal = ('colors', 'materials')
     fieldsets = (
         (None, {
-            'fields': ('brand', 'model', 'category', 'description')
+            'fields': ('brand', 'model', 'category', 'description', 'price', 'status')
         }),
         ('Technical Specs', {
-            'fields': ('transmission', 'drive_type', 'max_speed', 'acceleration', 'scale', 'rarity', 'base_model', 'cover_model', 'packing', 'material_composition')
+            'fields': ('transmission', 'year', 'mileage', 'fuel_type', 'drive_type', 'max_speed', 'acceleration', 'scale', 'rarity', 'base_model', 'cover_model', 'packing', 'material_composition')
         }),
         ('Photos', {
             'fields': ('thumbnail',)

@@ -29,7 +29,7 @@ secret_key = secrets.token_urlsafe(50)
 SECRET_KEY = secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -37,6 +37,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -57,6 +58,14 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+UNFOLD = {
+    "SITE_TITLE": "Car Rental",
+    "SITE_HEADER": "Car Rental Admin",
+    "SITE_URL": "/",
+    "THEME": "dark",
+    "SHOW_LANGUAGES": False,
+}
 
 ROOT_URLCONF = 'rent_car.urls'
 
@@ -85,10 +94,14 @@ WSGI_APPLICATION = 'rent_car.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    "default": dj_database_url.parse(
-        "postgresql://admin:admin@localhost:5432/car_rental_db",
-        conn_max_age=600
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'car_rental_db',
+        'USER': 'admin',
+        'PASSWORD': 'admin11',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 
@@ -122,8 +135,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_URL = "/static/"
+STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles" 
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -132,9 +146,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "bereketlilogistika.com"
 EMAIL_PORT = 465
-EMAIL_USE_SSL = True   # порт 465 — это SSL
+EMAIL_USE_SSL = True
 EMAIL_HOST_USER = "dev@bereketlilogistika.com"
-EMAIL_HOST_PASSWORD = "(:fjlr&([yn6"   # твой пароль
+EMAIL_HOST_PASSWORD = "(:fjlr&([yn6"
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 CONTACT_EMAIL = "dev@bereketlilogistika.com"
