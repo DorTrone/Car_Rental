@@ -12,8 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import secrets
-import dj_database_url
-import os
+import pymysql
+pymysql.install_as_MySQLdb()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -95,12 +95,12 @@ import dj_database_url
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'car_rental_db',
-        'USER': 'admin',
-        'PASSWORD': 'admin11',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'd044c3d2',
+        'USER': 'd044c3d2',
+        'PASSWORD': 'U9sVsEDpxsdUCkBYAZB5',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
